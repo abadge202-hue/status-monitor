@@ -16,11 +16,11 @@ def check_target(url: str, timeout: float) -> tuple[CheckResult, float | None]:
     start_time = time.perf_counter()
     try:
         response = requests.get(url, timeout=timeout)
-        response_time = (time.perf_counter() - start_time) * 1000
-        if response.status_code == 200:
-            return CheckResult.UP, round(response_time, 1)
+        response_time = round((time.perf_counter() - start_time) * 1000, 1)
+        if response.status_code == response.ok:
+            return CheckResult.UP, response_time
         else:
-            return CheckResult.DOWN, round(response_time, 1)
+            return CheckResult.DOWN, response_time
     except requests.exceptions.Timeout:
         return CheckResult.TIMEOUT, None
     except requests.exceptions.RequestException:
