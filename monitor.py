@@ -1,8 +1,7 @@
 import time
-import requests
-
 from enum import Enum
 
+import requests
 
 
 class CheckResult(Enum):
@@ -17,7 +16,7 @@ def check_target(url: str, timeout: float) -> tuple[CheckResult, float | None]:
     try:
         response = requests.get(url, timeout=timeout)
         response_time = round((time.perf_counter() - start_time) * 1000, 1)
-        if response.status_code == response.ok:
+        if response.ok:
             return CheckResult.UP, response_time
         else:
             return CheckResult.DOWN, response_time
